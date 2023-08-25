@@ -23,6 +23,14 @@ function App() {
 
   // Optimized Version with useMemo
 
+  // SearchBar Logic
+  async function fetchByTitle(title) {
+    const searchResponse = await TVShowAPI.fetchByTitle(title);
+    if (searchResponse.length > 0) {
+      setCurrentTVShow(searchResponse[0]);
+    }
+  }
+
   useEffect(() => {
     fetchPopulars();
   }, []);
@@ -41,6 +49,9 @@ function App() {
         <div className="row">
           <div className="col-4">
             <Logo title="WatchShows" image={logoImg} />
+          </div>
+          <div className="col-md-12 col-lg-4">
+            <SearchBar onSubmit={fetchByTitle} />
           </div>
         </div>
       </div>
