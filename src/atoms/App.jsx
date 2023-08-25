@@ -55,6 +55,9 @@ function App() {
           </div>
         </div>
       </div>
+      <div className={s.tv_show_details}>
+        {currentTVShow && <TvShowDetail tvShow={currentTVShow} />}
+      </div>
     </div>
   );
 }
