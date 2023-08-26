@@ -10,12 +10,13 @@ import s from "./particle/style.module.css";
 
 function App() {
   const [currentTVShow, setCurrentTVShow] = useState();
+  const [recommendationList, setRecommendationList] = useState([]);
 
   // Normal Version
   async function fetchPopulars() {
     const popularTVShowList = await TVShowAPI.fetchPopulars();
     if (popularTVShowList.length > 0) {
-      setCurrentTVShow(popularTVShowList[1]);
+      setCurrentTVShow(popularTVShowList[0]);
     }
   }
 
@@ -31,9 +32,28 @@ function App() {
     }
   }
 
+  async function fetchRecommendations(tvShowId) {
+    const recommendationListResponse = await TVShowAPI.fetchRecommendations(
+      tvShowId
+    );
+    if (recommendationListResponse.length > 0) {
+      setRecommendationList(recommendationListResponse.slice(0, 10));
+    }
+  }
+
+  function updateCurrentTVShow(tvShow) {
+    setCurrentTVShow(tvShow);
+  }
+
   useEffect(() => {
     fetchPopulars();
   }, []);
+
+  useEffect(() => {
+    if (currentTVShow) {
+      fetchRecommendations(currentTVShow.id);
+    }
+  }, [currentTVShow]);
 
   return (
     <div
@@ -57,6 +77,14 @@ function App() {
       </div>
       <div className={s.tv_show_details}>
         {currentTVShow && <TvShowDetail tvShow={currentTVShow} />}
+      </div>
+      <div className={s.recommended_shows}>
+        {currentTVShow && (
+          <TvShowList
+            onClickItem={updateCurrentTVShow}
+            tvShowList={recommendationList}
+          />
+        )}
       </div>
     </div>
   );
