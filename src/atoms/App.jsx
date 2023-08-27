@@ -38,6 +38,14 @@ function App() {
   //   };
   // }, []);
 
+  // Optimized 2nd Version with useMemo
+  /*const fetchPopulars2 = useMemo(async () => {
+    const popularTVShowList = await TVShowAPI.fetchPopulars();
+    if (popularTVShowList.length > 0) {
+      setCurrentTVShow(popularTVShowList[0])
+    }
+  }, []);*/
+
   // SearchBar Logic
   async function fetchByTitle(title) {
     const searchResponse = await TVShowAPI.fetchByTitle(title);
