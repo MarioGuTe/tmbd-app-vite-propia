@@ -21,16 +21,22 @@ function App() {
   // }
 
   // Optimized Version with useCallback
+  const fetchPopulars = useCallback(async () => {
+    const popularTVShowList = await TVShowAPI.fetchPopulars();
+    if (popularTVShowList.length > 0) {
+      setCurrentTVShow(popularTVShowList[0]);
+    }
+  }, []);
 
   // Optimized Version with useMemo
-  const fetchPopulars = useMemo(() => {
-    return async () => {
-      const popularTVShowList = await TVShowAPI.fetchPopulars();
-      if (popularTVShowList.length > 0) {
-        setCurrentTVShow(popularTVShowList[0]);
-      }
-    };
-  }, []);
+  // const fetchPopulars = useMemo(() => {
+  //   return async () => {
+  //     const popularTVShowList = await TVShowAPI.fetchPopulars();
+  //     if (popularTVShowList.length > 0) {
+  //       setCurrentTVShow(popularTVShowList[0]);
+  //     }
+  //   };
+  // }, []);
 
   // SearchBar Logic
   async function fetchByTitle(title) {
